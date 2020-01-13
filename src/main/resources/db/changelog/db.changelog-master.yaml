@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-test1.yaml
+  - changeSet:
+      id: 1
+      author: ruslan_scouse
+      changes:
+        - createTable:
+            tableName: surveys
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: start
+                  type: timestamp
+
+              - column:
+                  name: finish
+                  type: timestamp
+              - column:
+                  name: activity
+                  type: boolean
+
+  - changeSet:
+      id: 2
+      author: ruslan_scouse
+      changes:
+        - createTable:
+            tableName: questions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: text
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: survey_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_survey_id
+                    references: surveys(id)
+  - changeSet:
+      id: 3
+      author: ruslan_scouse
+      comment: "Create surveys"
+      changes:
+        - insert:
+            tableName: surveys
+            columns:
+              - column:
+                  name: title
+                  value: "test1"
+        - insert:
+            tableName: surveys
+            columns:
+              - column:
+                  name: title
+                  value: "test2"
+              - column:
+                  name: start
+                  valueDate: "2017-08-19 14:22:11.802755"
+  - changeSet:
+      id: 4
+      author: ruslan_scouse
+      comment: "Creating questions"
+      changes:
+        - insert:
+            tableName: questions
+            columns:
+              - column:
+                  name: survey_id
+                  value: 1
+              - column:
+                  name: text
+                  value: "TEXT"
+        - insert:
+                  tableName: questions
+                  columns:
+                    - column:
+                        name: survey_id
+                        value: 2
+                    - column:
+                        name: text
+                        value: "SSSSSSS"
